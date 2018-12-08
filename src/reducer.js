@@ -1,5 +1,6 @@
-const initState = {a: 1};
+import { combineReducers } from "redux";
+import { user } from "./redux/user.redux";
 
-export default (state = initState) => {
-  return state
-}
+export default combineReducers({
+  user
+});
