@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Grid, List } from 'antd-mobile';
+import { Redirect } from 'react-router';
 
 export default class AvatarSelector extends PureComponent {
   state = {}
-  
+
   avatarList = 'boy,bull,chick,crab,girl,hedgehog,hippopotamus,koala,lemur,man,pig,tiger,whale,woman,zebra'
     .split(',')
     .map(el => ({ 
@@ -21,7 +22,7 @@ export default class AvatarSelector extends PureComponent {
     const girdHeader = this.state.icon ? (
       <div>
         <span>已选择头像</span>
-        <img src={{width: 20}} src={this.state.icon} />
+        <img style={{width: 20}} src={this.state.icon} />
       </div>
     ) : '请选择头像';
     return (

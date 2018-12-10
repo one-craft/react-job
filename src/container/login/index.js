@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { WingBlank, Button, WhiteSpace, InputItem, List } from 'antd-mobile';
 import { connect } from 'react-redux';
-
 import { login } from '../../redux/user.redux';
+import { Redirect } from 'react-router-dom';
 
 @connect(
-  ({user}) => ({user}),
+  ({user}) => user,
   {login}
 )
 class Login extends PureComponent {
@@ -23,13 +23,13 @@ class Login extends PureComponent {
   }
 
   handleLogin = () => {
-    this.props.history.push('/bossinfo')
-    // this.props.login(this.state);
+    this.props.login(this.state);
   }
 
   render() {
     return (
       <WingBlank>
+        { this.props.redirectTo && <Redirect to={this.props.redirectTo} /> }
         <h2>登录</h2>
         <List>
           <InputItem

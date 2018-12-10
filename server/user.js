@@ -1,14 +1,42 @@
 const express = require('express');
-const model = require('./model')
+const model = require('./model');
+const utils = require('utility');
 
 const Router = express.Router();
 const User = model.getModel('user');
+const _filter = { 'pwd': 0, '__v': 0 };
 
 Router.get('/list', (req, res) => {
-  User.find({ user, type }, (err, doc) => {
+  User.find({}, (err, doc) => {
     return res.json(doc);
   })
+});
+
+Router.post('/update', function(req, res) {
+  const userid = req.cookies.userid;
+  if(!userid) {
+    return json.dumps({code: 1});
+  }
+  const body = req.body;
+  User.findByIdAndUpdate(userid, body, (err, doc) => {
+    console.log(doc)
+    const data = Object.assign({}, { user: doc.user, type: doc.type }, body);
+    return res.json({ code: 0, data});
+  })
 })
+
+Router.post('/login', (req, res) => {
+  const { user, pwd } = req.body;
+  User.findOne({ user, pwd }, _filter, (err, doc) => {
+    if(!doc) {
+      return res.json({code: 1, msg: '用户名或者密码错误'});
+    }
+    console.log(req.cookies.userid)
+    console.log(doc)
+    res.cookie('userid', doc._id);
+    return res.json({ code: 0, data: doc });
+  })
+});
 
 Router.post('/register', (req, res) => {
   const { user, pwd, type } = req.body;
@@ -23,10 +51,10 @@ Router.post('/register', (req, res) => {
       return res.json({code: 0})
     })
   })
-})
+});
 
 Router.get('/info', (req, res) => {
   return res.json({ code: 1});
-})
+});
 
 module.exports = Router;

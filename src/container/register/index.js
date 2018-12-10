@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { register } from '../../redux/user.redux'
 import './index.css';
 import ListItem from 'antd-mobile/lib/list/ListItem';
+import { Redirect } from 'react-router';
 
 @connect(
   ({user}) =>  user,
@@ -34,6 +35,7 @@ class Register extends PureComponent {
     const { type } = this.state;
     return (
       <WingBlank>
+         { this.props.redirectTo && <Redirect to={this.props.redirectTo} /> }
         <h2>注册</h2>
         <List>
           {
