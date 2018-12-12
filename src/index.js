@@ -3,13 +3,17 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { BrowserRouter, Switch } from 'react-router-dom';
-
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './config.js';
 import './index.css';
-import App from './App';
 import reducers from './reducer'
 import * as serviceWorker from './serviceWorker';
+import Login from './container/Login/index'
+import Register from './container/Register';
+import AuthRoute from './components/AuthRoute/AuthRoute';
+import BossInfo from './container/BossInfo';
+import GeniusInfo from './container/GeniusInfo';
+import Dashboard from './components/Dashboard';
 
 const store = createStore(reducers, compose(
   applyMiddleware(thunk),
@@ -20,9 +24,16 @@ const store = createStore(reducers, compose(
 ReactDOM.render((
   <Provider store={store}>
     <BrowserRouter>
-      <Switch>
-        <App />
-      </Switch>
+      <div>
+        <AuthRoute />
+        <Switch>
+          <Route path='/bossinfo' component={BossInfo}/>
+          <Route path='/geniusinfo' component={GeniusInfo}/>
+          <Route path='/login' component={Login} />
+          <Route path='/register' component={Register} />
+          <Route component={Dashboard} />
+        </Switch>
+      </div>
     </BrowserRouter>
   </Provider>
 ), document.getElementById('root'));
