@@ -15,7 +15,7 @@ class Register extends PureComponent {
     user: '',
     pwd: '',
     repeatpwd: '',
-    type: 'genuis'
+    type: 'genius'
   }
 
   gotoLogin = () => {
@@ -53,8 +53,8 @@ class Register extends PureComponent {
             type='password'
             onChange={ value => this.handleChange('repeatpwd', value) }>确认密码</InputItem>
           <Radio.RadioItem 
-            checked={type === 'genuis'}
-            onChange={() => this.handleChange('type', 'genuis')}
+            checked={type === 'genius'}
+            onChange={() => this.handleChange('type', 'genius')}
           >牛人</Radio.RadioItem>
           <Radio.RadioItem 
             checked={type === 'boss'}

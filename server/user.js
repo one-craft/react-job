@@ -54,7 +54,18 @@ Router.post('/register', (req, res) => {
 });
 
 Router.get('/info', (req, res) => {
-  return res.json({ code: 1});
+  const { userid } = req.cookies;
+  if(!userid) {
+    return res.json({code: 1});
+  }
+  User.findOne({_id: userid}, _filter, (err, doc) => {
+    if(err) {
+      return res.json({code: 1});
+    }
+    if(doc) {
+      return res.json({ code: 0, data: doc});
+    }
+  })
 });
 
 module.exports = Router;
