@@ -1,8 +1,14 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loadData } from '../../redux/user.redux';
 
 @withRouter
+@connect(
+  null,
+  { loadData }
+)
 class AuthRoute extends PureComponent {
   componentDidMount() {
     const publicList = ['/login', '/register'];
@@ -14,7 +20,7 @@ class AuthRoute extends PureComponent {
     Axios.get('/user/info').then( res => {
       if(res.status === 200) {
         if(res.data.code === 0) {
-
+          this.props.loadData(res.data.data)
         } else {
           this.props.history.push('/login')
         }
