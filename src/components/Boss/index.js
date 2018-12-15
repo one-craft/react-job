@@ -1,31 +1,28 @@
 import React, { PureComponent, Fragment } from 'react';
 import Axios from 'axios';
 import { Card, WingBlank, WhiteSpace } from 'antd-mobile';
+import { connect } from 'react-redux';
+import { getUserList } from '../../redux/chatuser.redux';
 
-export default class Boss extends PureComponent {
-  state = {
-    data: [],
-  }
-
+@connect(
+  ({chatuser}) => chatuser,
+  { getUserList },
+)
+class Boss extends PureComponent {
   componentDidMount() {
-    Axios.get('user/list?type=boss')
-      .then(res => {
-        if(res.data.code === 0) {
-          this.setState({data: res.data.data})
-        }
-      })
+    this.props.getUserList('genius');
   }
 
   render() {
     return (
       <WingBlank>
         {
-          this.state.data.map(({ user, avatar, title }) => {
+          this.props.userList.map(({ user, avatar, title, desc }) => {
             if(!avatar) {
               return null;
             }
             return (
-              <Fragment>
+              <Fragment key={user}>
                 <WhiteSpace />
                 <Card>
                   <Card.Header 
@@ -33,6 +30,7 @@ export default class Boss extends PureComponent {
                     thumb={require(`../../asset/${avatar}.png`)}
                     extra={<span>{title}</span>}
                   />
+                  <Card.Body>{desc}</Card.Body>
                 </Card>
               </Fragment>
             )
@@ -42,3 +40,5 @@ export default class Boss extends PureComponent {
     )
   }
 }
+
+export default Boss;
